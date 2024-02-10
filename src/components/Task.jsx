@@ -6,6 +6,7 @@ function Task() {
   const [click, setClick] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [task, setTasks] = useState([]);
+  const [edit, setEdit] = useState(null);
   const [taskCreationTime, setTaskCreationTime] = useState([]);
 
   const handleAddTaskClick = () => {
@@ -45,6 +46,23 @@ function Task() {
     setTasks(newTask);
   };
 
+  const handleEditTaskClick = (index) => {
+    setEdit(index);
+    setInputValue(task[index].name);
+    setClick(true);
+  };
+
+  const handleEditTask = () => {
+    if (inputValue.trim() !== "") {
+      const editedTasks = [...task];
+      editedTasks[edit].name = inputValue;
+      setTasks(editedTasks);
+      setInputValue("");
+      setEdit(null);
+      setClick(false);
+    }
+  };
+
   return (
     <div className="w-full h-screen bg-[#0B1120] text-white">
       <div className="flex justify-center items-center flex-col">
@@ -77,7 +95,9 @@ function Task() {
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.2 }}
               >
-                <h3 className="text-xl font-semibold">Add TODO</h3>
+                <h3 className="text-xl font-semibold">
+                  {edit !== null ? "Edit ToDo" : "Add ToDo"}
+                </h3>
                 <div className="space-y-2">
                   <h4>Title</h4>
                   <input
@@ -102,13 +122,16 @@ function Task() {
                 <div className="space-x-3 space-y-4">
                   <button
                     className="px-5 py-2 bg-[#646FF0] rounded-md"
-                    onClick={handleAddTask}
+                    onClick={edit !== null ? handleEditTask : handleAddTask}
                   >
-                    Add Task
+                    {edit !== null ? "Edit Task" : "Add Task"}
                   </button>
                   <button
                     className="px-5 py-2 bg-gray-500 rounded-md"
-                    onClick={() => setClick(false)}
+                    onClick={() => {
+                      setEdit(null);
+                      setClick(false);
+                    }}
                   >
                     Cancel
                   </button>
@@ -158,7 +181,7 @@ function Task() {
                         </div>
                       </div>
                       <div className="flex justify-center items-center space-x-2">
-                        <button>
+                        <button onClick={() => handleEditTaskClick(index)}>
                           <MdEdit size={20} />
                         </button>
                         <button onClick={() => handleRemoveTask(index)}>

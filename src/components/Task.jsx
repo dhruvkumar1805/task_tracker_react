@@ -64,18 +64,21 @@ function Task() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#0B1120] text-white">
-      <div className="flex justify-center items-center flex-col">
-        <h1 className="font-bold text-5xl mt-12">TODO TRACKER</h1>
-        <div className="w-[750px] flex justify-between items-center mt-12">
+    <div className="w-full h-screen bg-gradient-to-br from-[#0B1120] to-[#2E3442] text-white">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="font-bold text-5xl mt-12 mb-8 tracking-widest">
+          TODO TRACKER
+        </h1>
+        <div className="w-[750px] flex justify-between items-center mt-6">
           <button
-            className="px-5 py-2 bg-[#646FF0] rounded-md"
+            className="px-5 py-2 bg-[#646FF0] hover:bg-[#4B5E92] rounded-md transition-colors"
             onClick={handleAddTaskClick}
           >
             Add Task
           </button>
-          <div className="px-5 py-2 bg-[#1E293B] rounded-md flex gap-6">
-            <select className="bg-transparent" name="" id="">
+          <div className="relative">
+            <select className="bg-[#4B5E92] text-white px-4 py-2 rounded-md">
+              <option value="all">All</option>
               <option value="completed">Completed</option>
               <option value="incomplete">Incomplete</option>
             </select>
@@ -145,7 +148,7 @@ function Task() {
             <p className="text-gray-200 mt-8">No tasks added yet.</p>
           ) : (
             <div className="bg-[#1E293B] w-[750px] rounded-lg mt-10">
-              <div className="px-3 py-3 rounded-lg space-y-4">
+              <div className="px-4 py-4 rounded-lg space-y-4">
                 {task.map((task, index) => (
                   <motion.div
                     key={index}
@@ -153,7 +156,7 @@ function Task() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
-                    className="bg-gray-700 rounded-md px-2 py-1"
+                    className="rounded-md p-3"
                   >
                     <div className="flex justify-between items-center">
                       <div>
@@ -169,7 +172,9 @@ function Task() {
                           <div className="ml-4">
                             <span
                               className={
-                                task.checked ? "line-through opacity-50" : ""
+                                task.checked
+                                  ? "line-through opacity-50 text-[18px]"
+                                  : "text-[18px]"
                               }
                             >
                               {task.name}

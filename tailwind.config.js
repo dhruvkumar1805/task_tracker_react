@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
-      custom: ["Inter", "sans-serif"],
+      custom: ["DM Sans", "sans-serif"],
     },
   },
   plugins: [],

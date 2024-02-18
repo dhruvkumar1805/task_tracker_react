@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdEdit, MdDelete } from "react-icons/md";
 
 function Task() {
   const [click, setClick] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [task, setTasks] = useState([]);
   const [edit, setEdit] = useState(null);
-  const [taskCreationTime, setTaskCreationTime] = useState([]);
+  const [task, setTasks] = useState(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    return storedTasks;
+  });
+  const [taskCreationTime, setTaskCreationTime] = useState(() => {
+    const storedCreationTime =
+      JSON.parse(localStorage.getItem("creationTime")) || [];
+    return storedCreationTime;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(task));
+    localStorage.setItem("creationTime", JSON.stringify(taskCreationTime));
+  }, [task, taskCreationTime]);
 
   const handleAddTaskClick = () => {
     setClick(true);

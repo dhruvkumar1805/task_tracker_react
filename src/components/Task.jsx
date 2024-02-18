@@ -6,6 +6,8 @@ function Task() {
   const [click, setClick] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [edit, setEdit] = useState(null);
+  const [filter, setFilter] = useState("all");
+  const [modalFilter, setModalFilter] = useState("incomplete");
   const [task, setTasks] = useState(() => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     return storedTasks;
@@ -27,7 +29,11 @@ function Task() {
 
   const handleAddTask = () => {
     if (inputValue.trim() !== "") {
-      setTasks([{ name: inputValue, checked: false }, ...task]);
+      const newTask = {
+        name: inputValue,
+        checked: modalFilter === "completed",
+      };
+      setTasks([newTask, ...task]);
       setTaskCreationTime([
         new Date().toLocaleTimeString([], {
           hour: "2-digit",
@@ -75,6 +81,16 @@ function Task() {
     }
   };
 
+  const filteredTasks = task.filter((task) => {
+    if (filter === "completed") {
+      return task.checked;
+    } else if (filter === "incomplete") {
+      return !task.checked;
+    } else {
+      return true;
+    }
+  });
+
   return (
     <div className="w-full min-h-screen bg-[#232232] text-white">
       <div className="flex flex-col items-center justify-center">
@@ -90,7 +106,11 @@ function Task() {
               Add Task
             </button>
             <div>
-              <select className="whitespace-nowrap bg-[#c44c3c] text-white py-2 px-2 rounded-md">
+              <select
+                className="whitespace-nowrap bg-[#c44c3c] text-white py-2 px-2 rounded-md"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
                 <option value="all">All</option>
                 <option value="completed">Completed</option>
                 <option value="incomplete">Incomplete</option>
@@ -103,6 +123,7 @@ function Task() {
             <motion.div
               key="modal"
               className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-10"
+              onClick={() => setClick(false)}
             >
               <motion.div
                 className="w-full md:w-auto bg-[#181824] flex justify-evenly flex-col px-4 py-4 mx-4 gap-4 rounded-lg"
@@ -111,6 +132,7 @@ function Task() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.2 }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <h3 className="text-xl font-semibold">
                   {edit !== null ? "Edit ToDo" : "Add ToDo"}
@@ -131,6 +153,8 @@ function Task() {
                     className="w-full md:w-96 px-4 py-2 rounded-md text-gray-800"
                     name=""
                     id=""
+                    value={modalFilter}
+                    onChange={(e) => setModalFilter(e.target.value)}
                   >
                     <option value="completed">Completed</option>
                     <option value="incomplete">Incomplete</option>
@@ -159,14 +183,14 @@ function Task() {
           )}
         </AnimatePresence>
         <div className="w-full px-4 flex justify-center items-center">
-          {task.length === 0 ? (
+          {filteredTasks.length === 0 ? (
             <p className="text-gray-200 mt-6 text-center md:mt-8">
               No tasks added yet.
             </p>
           ) : (
             <div className="w-full md:w-[750px] bg-[#2a293b] rounded-lg mt-6">
               <div className="rounded-lg mx-4">
-                {task.map((task, index) => (
+                {filteredTasks.map((task, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: -20 }}

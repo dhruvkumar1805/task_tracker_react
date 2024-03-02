@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { Toaster, toast } from "sonner";
 
 function Task() {
   const [click, setClick] = useState(false);
@@ -47,6 +48,7 @@ function Task() {
           }),
         ...taskCreationTime,
       ]);
+      toast.success("Event has been created");
       setInputValue("");
       setClick(false);
     }
@@ -55,6 +57,7 @@ function Task() {
   const handleRemoveTask = (index) => {
     const newTask = [...task];
     newTask.splice(index, 1);
+    toast.error("Event has been deleted");
     setTasks(newTask);
   };
 
@@ -75,6 +78,7 @@ function Task() {
       const editedTasks = [...task];
       editedTasks[edit].name = inputValue;
       setTasks(editedTasks);
+      toast.success("Event has been updated");
       setInputValue("");
       setEdit(null);
       setClick(false);
@@ -93,8 +97,11 @@ function Task() {
 
   return (
     <div className="w-full min-h-screen bg-[#232232] text-white">
+      <div>
+        <Toaster richColors />
+      </div>
       <div className="flex flex-col items-center justify-center">
-        <h1 className="font-bold text-3xl md:text-5xl my-8 tracking-widest">
+        <h1 className="font-bold text-3xl md:text-5xl my-8 md:mt-20 md:mb-10 tracking-widest">
           TODO TRACKER
         </h1>
         <div className="flex justify-between md:justify-center items-center w-full">
@@ -107,7 +114,7 @@ function Task() {
             </button>
             <div>
               <select
-                className="whitespace-nowrap bg-[#c44c3c] text-white py-2 px-2 rounded-md"
+                className="whitespace-nowrap bg-[#c44c3c] text-white py-2 px-2 rounded-md outline-none"
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
               >
@@ -140,6 +147,7 @@ function Task() {
                 <div className="space-y-2">
                   <h4>Title</h4>
                   <input
+                    autoFocus
                     className="w-full md:w-96 px-4 py-2 rounded-md text-gray-800"
                     type="text"
                     value={inputValue}
@@ -214,7 +222,7 @@ function Task() {
                             <span
                               className={
                                 task.checked
-                                  ? "line-through opacity-50 text-[18px]"
+                                  ? "line-through opacity-50 text-[18px] leading-none"
                                   : "text-[18px] leading-none"
                               }
                             >

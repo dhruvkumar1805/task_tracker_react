@@ -1,7 +1,27 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function TaskModal({ edit, inputValue, modalFilter, handleAddTask, handleEditTask, setInputValue, setEdit, setClick }) {
+function TaskModal({
+  edit,
+  inputValue,
+  modalFilter,
+  handleAddTask,
+  handleEditTask,
+  setInputValue,
+  setModalFilter,
+  setEdit,
+  setClick,
+}) {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (edit !== null) {
+        handleEditTask();
+      } else {
+        handleAddTask();
+      }
+    }
+  };
+
   return (
     <motion.div
       key="modal"
@@ -13,28 +33,29 @@ function TaskModal({ edit, inputValue, modalFilter, handleAddTask, handleEditTas
         key="modalContent"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
+        exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.2 }}
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-xl font-semibold">
-          {edit !== null ? "Edit ToDo" : "Add ToDo"}
+          {edit !== null ? "Edit Task" : "Add Task"}
         </h3>
         <div className="space-y-2">
           <h4>Title</h4>
           <input
             autoFocus
-            className="w-full md:w-96 px-4 py-2 rounded-md text-gray-800"
+            className="w-full md:w-96 px-4 py-2 rounded-md bg-slate-200 text-gray-800 placeholder-gray-400 outline-none focus:outline-none"
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Add your task here"
+            onKeyDown={handleKeyDown}
+            placeholder="What do you need to do?"
           />
         </div>
         <div className="space-y-2">
           <h4>Status</h4>
           <select
-            className="w-full md:w-96 px-4 py-2 rounded-md text-gray-800"
+            className="w-full md:w-96 px-4 py-2 rounded-md bg-slate-200 text-gray-800"
             name=""
             id=""
             value={modalFilter}
@@ -46,13 +67,13 @@ function TaskModal({ edit, inputValue, modalFilter, handleAddTask, handleEditTas
         </div>
         <div className="space-x-3 space-y-4">
           <button
-            className="px-5 py-2 bg-[#f84f38] hover:bg-[#a24e43] rounded-md"
+            className="px-3 py-2 bg-red-500 text-sm hover:bg-red-400 rounded-md transition duration-300 ease-in-out"
             onClick={edit !== null ? handleEditTask : handleAddTask}
           >
             {edit !== null ? "Edit Task" : "Add Task"}
           </button>
           <button
-            className="px-5 py-2 bg-gray-500 rounded-md"
+            className="px-3 py-2 text-sm bg-gray-500 hover:bg-gray-400 rounded-md transition duration-300 ease-in-out"
             onClick={() => {
               setEdit(null);
               setClick(false);

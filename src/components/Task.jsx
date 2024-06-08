@@ -49,7 +49,7 @@ function Task() {
           }),
         ...taskCreationTime,
       ]);
-      toast.success("Event has been created");
+      toast.success("Task has been created");
       setInputValue("");
       setClick(false);
     }
@@ -58,7 +58,7 @@ function Task() {
   const handleRemoveTask = (index) => {
     const newTask = [...task];
     newTask.splice(index, 1);
-    toast.error("Event has been deleted");
+    toast.error("Task has been deleted");
     setTasks(newTask);
   };
 
@@ -79,7 +79,7 @@ function Task() {
       const editedTasks = [...task];
       editedTasks[edit].name = inputValue;
       setTasks(editedTasks);
-      toast.success("Event has been updated");
+      toast.success("Task has been updated");
       setInputValue("");
       setEdit(null);
       setClick(false);
@@ -99,23 +99,30 @@ function Task() {
   return (
     <div className="w-full min-h-screen bg-[#232232] text-white">
       <div>
-        <Toaster richColors />
+        <Toaster richColors position="top-center" />
       </div>
       <div className="flex flex-col items-center justify-center">
-        <h1 className="font-bold text-3xl md:text-5xl my-8 md:mt-20 md:mb-10 tracking-widest">
-          TODO TRACKER
-        </h1>
+        <div className="flex justify-center items-center gap-4 mb-5">
+          <button className="md:mt-20 md:mb-20 bg-red-500 fill-slate-200 rounded-full p-2 hover:scale-110 transition duration-300 ease-in-out">
+            <svg width="25" height="25" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+            </svg>
+          </button>
+          <h1 className="font-bold text-3xl md:text-5xl my-8 md:mt-20 md:mb-20 tracking-widest">
+            Todo Tracker
+          </h1>
+        </div>
         <div className="flex justify-between md:justify-center items-center w-full">
           <div className="w-full px-4 md:px-0 md:w-[750px] md:gap-[30rem] flex justify-between items-center">
             <button
-              className="whitespace-nowrap px-4 py-2 bg-[#f84f38] hover:bg-[#a24e43] rounded-md transition-colors"
+              className="whitespace-nowrap px-4 py-2 bg-red-500 hover:bg-red-400 rounded-md transition duration-300 ease-in-out"
               onClick={handleAddTaskClick}
             >
               Add Task
             </button>
             <div>
               <select
-                className="whitespace-nowrap bg-[#c44c3c] text-white py-2 px-2 rounded-md outline-none"
+                className="whitespace-nowrap bg-red-500 hover:bg-red-400 transition duration-300 ease-in-out text-white p-2 rounded-md outline-none"
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
               >

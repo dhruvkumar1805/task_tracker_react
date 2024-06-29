@@ -5,6 +5,7 @@ import axios from "axios";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -18,6 +19,17 @@ function Login() {
       localStorage.setItem("token", res.data.token);
       navigate("/");
     } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErrorMessage("User not found. Please create an account.");
+        } else if (error.response.status === 401) {
+          setErrorMessage("Invalid credentials. Please try again.");
+        } else {
+          setErrorMessage("An error occurred. Please try again.");
+        }
+      } else {
+        setErrorMessage("An error occurred. Please try again.");
+      }
       console.log(error);
     }
   };
@@ -63,6 +75,9 @@ function Login() {
                   }}
                 />
               </div>
+              {errorMessage && (
+                <p className="text-red-500 mt-4 text-center">{errorMessage}</p>
+              )}
               <button
                 type="submit"
                 className="w-full bg-red-500 hover:bg-red-400 transition duration-300 ease-in-out rounded-md p-2 mt-6"

@@ -6,6 +6,7 @@ function SignUp() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -20,9 +21,19 @@ function SignUp() {
       localStorage.setItem("token", res.data.token);
       navigate("/");
     } catch (error) {
-      console.error(error.response.data);
+      if (error.response) {
+        if (error.response.status === 400) {
+          setErrorMessage("Email already exists. Please log in.");
+        } else {
+          setErrorMessage("An error occurred. Please try again.");
+        }
+      } else {
+        setErrorMessage("An error occurred. Please try again.");
+      }
+      console.error(error);
     }
   };
+
   return (
     <div>
       <div className="w-full min-h-screen bg-[#232232] text-white">
@@ -76,6 +87,9 @@ function SignUp() {
                   }}
                 />
               </div>
+              {errorMessage && (
+                <p className="text-red-500 mt-4 text-center">{errorMessage}</p>
+              )}
               <button
                 type="submit"
                 className="w-full bg-red-500 hover:bg-red-400 transition duration-300 ease-in-out rounded-md p-2 mt-6"

@@ -39,7 +39,7 @@ function Login() {
       <div className="w-full min-h-screen bg-[#232232] text-white">
         <div className="flex flex-col items-center justify-center h-screen">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-wide">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
               Sign In to Your Account
             </h1>
             <p className="text-gray-400 mt-2">
@@ -49,7 +49,7 @@ function Login() {
               </Link>
             </p>
           </div>
-          <div className="w-full max-w-sm mt-8">
+          <div className="w-full px-6 md:max-w-sm mt-8">
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col space-y-2">
                 <label>Email</label>

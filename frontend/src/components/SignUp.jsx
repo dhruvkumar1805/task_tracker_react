@@ -39,7 +39,7 @@ function SignUp() {
       <div className="w-full min-h-screen bg-[#232232] text-white">
         <div className="flex flex-col items-center justify-center h-screen">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-wide">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
               Create an account
             </h1>
             <p className="text-gray-400 mt-2">
@@ -49,7 +49,7 @@ function SignUp() {
               </Link>
             </p>
           </div>
-          <div className="w-full max-w-sm mt-8">
+          <div className="w-full px-6 md:px-0 md:max-w-sm mt-8">
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col space-y-2">
                 <label>Full Name</label>

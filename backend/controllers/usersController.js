@@ -77,13 +77,6 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
-  localStorage.removeItem("token");
-  res.status(201).json({
-    message: "User logged out successfully!",
-  });
-};
-
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user);

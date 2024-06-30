@@ -7,7 +7,7 @@ import Loader from "./Loader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Task() {
+function Task({ onLogout }) {
   const [click, setClick] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [edit, setEdit] = useState(null);
@@ -71,12 +71,13 @@ function Task() {
         await axios.post(`${backendUrl}/api/todos`, newTask, {
           headers: { "x-auth-token": token },
         });
+        toast.success("Task has been created");
         fetchTasks();
       } catch (error) {
         console.error(error);
+        toast.error("An Error Occurred!");
       }
 
-      toast.success("Task has been created");
       setInputValue("");
       setClick(false);
     }
@@ -141,6 +142,7 @@ function Task() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    onLogout();
     navigate("/login");
   };
 

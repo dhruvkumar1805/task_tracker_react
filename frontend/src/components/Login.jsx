@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 import axios from "axios";
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,8 +18,11 @@ function Login() {
         password,
       });
       localStorage.setItem("token", res.data.token);
+      toast.success("Signed In!");
+      onLogin();
       navigate("/");
     } catch (error) {
+      toast.error("Something went wrong!");
       if (error.response) {
         if (error.response.status === 404) {
           setErrorMessage("User not found. Please create an account.");
@@ -30,12 +34,14 @@ function Login() {
       } else {
         setErrorMessage("An error occurred. Please try again.");
       }
-      console.log(error);
     }
   };
 
   return (
     <div>
+      <div>
+        <Toaster richColors position="top-center" />
+      </div>
       <div className="w-full min-h-screen bg-[#232232] text-white">
         <div className="flex flex-col items-center justify-center h-screen">
           <div className="text-center">
@@ -50,7 +56,7 @@ function Login() {
             </p>
           </div>
           <div className="w-full px-6 md:max-w-sm mt-8">
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="flex flex-col space-y-2">
                 <label>Email</label>
                 <input
@@ -79,6 +85,7 @@ function Login() {
                 <p className="text-red-500 mt-4 text-center">{errorMessage}</p>
               )}
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="w-full bg-red-500 hover:bg-red-400 transition duration-300 ease-in-out rounded-md p-2 mt-6"
               >

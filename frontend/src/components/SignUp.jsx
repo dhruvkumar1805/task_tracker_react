@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 import axios from "axios";
 
-function SignUp() {
+function SignUp(onLogin) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,8 +20,11 @@ function SignUp() {
         password,
       });
       localStorage.setItem("token", res.data.token);
+      toast.success("SignUp successful!");
+      onLogin();
       navigate("/");
     } catch (error) {
+      toast.error("Something went wrong!");
       if (error.response) {
         if (error.response.status === 400) {
           setErrorMessage("Email already exists. Please log in.");
@@ -37,6 +41,9 @@ function SignUp() {
   return (
     <div>
       <div className="w-full min-h-screen bg-[#232232] text-white">
+        <div>
+          <Toaster richColors position="top-center" />
+        </div>
         <div className="flex flex-col items-center justify-center h-screen">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
@@ -50,7 +57,7 @@ function SignUp() {
             </p>
           </div>
           <div className="w-full px-6 md:px-0 md:max-w-sm mt-8">
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="flex flex-col space-y-2">
                 <label>Full Name</label>
                 <input
@@ -91,6 +98,7 @@ function SignUp() {
                 <p className="text-red-500 mt-4 text-center">{errorMessage}</p>
               )}
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="w-full bg-red-500 hover:bg-red-400 transition duration-300 ease-in-out rounded-md p-2 mt-6"
               >

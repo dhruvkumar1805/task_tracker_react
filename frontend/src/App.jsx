@@ -14,27 +14,41 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(!!token);
   }, []);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <Router>
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <Task /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? (
+              <Task onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/signup"
-          element={isLoggedIn ? <Navigate to="/" /> : <SignUp />}
+          element={
+            isLoggedIn ? <Navigate to="/" /> : <SignUp onLogin={handleLogin} />
+          }
         />
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
+          element={
+            isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />
+          }
         />
       </Routes>
     </Router>

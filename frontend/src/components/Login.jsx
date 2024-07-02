@@ -43,6 +43,20 @@ function Login({ onLogin }) {
         <Toaster richColors position="top-center" />
       </div>
       <div className="w-full min-h-screen bg-[#232232] text-white">
+        <div className="flex justify-start items-center gap-2 md:gap-4 p-6 absolute">
+          <button className="bg-red-500 fill-slate-200 rounded-full p-2 hover:scale-110 transition duration-300 ease-in-out">
+            <svg
+              width={window.innerWidth > 768 ? "24" : "14"}
+              height={window.innerWidth > 768 ? "24" : "14"}
+              viewBox="0 0 24 24"
+            >
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+            </svg>
+          </button>
+          <h1 className="font-bold text-2xl md:text-3xl tracking-wide md:tracking-wider whitespace-nowrap">
+            Todo App
+          </h1>
+        </div>
         <div className="flex flex-col items-center justify-center h-screen">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
